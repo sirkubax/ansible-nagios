@@ -140,6 +140,14 @@
   tags:
       - etc
 
+- name: chown /usr/local/nagios/var/rw/nagios.cmd
+      state: file
+      path: /usr/local/nagios/var/rw/nagios.cmd
+      owner: nagios
+      group: nagios
+  tags:
+      - etc
+
 # nagios templates
 - tasks:
   include: templates.yml
