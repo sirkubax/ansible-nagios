@@ -38,18 +38,19 @@ nagios_version: 4.0.6
 nagios_plugins_version: 2.0
 nagios_nrpe_version: 2.15
 nagios_build_directory: /tmp
-nagios_ssl_lib_path: /usr/lib/x86_64-linux-gnu
+#nagios_ssl_lib_path: /usr/lib/x86_64-linux-gnu
+nagios_ssl_lib_path: /usr/lib/i386-linux-gnu/
 nagios_password: nagiosadmin
 nagios_user: nagiosadmin
-nagios_admin_email: ops@example.com
+nagios_admin_email: main@domain.com
 nagios_admin_name: 'Nagios Admin'
-nagios_host: nagios.exmple.com
+nagios_host: nagios.domain.com
 nagios_log_directory: /var/log
 
 nagios_pagerduty_key: xxxxxxxxxxxxxxxxxxxxxx
-nagios_enable_pagerduty_notifications: true
+nagios_enable_pagerduty_notifications: False
 
-nagios_enable_ses_notifications: true
+nagios_enable_ses_notifications: False
 nagios_aws_access_key_id: xxxxxxxxxxxxxxxx
 nagios_aws_access_key_secret: xxxxxxxxxxxxxxx
 nagios_ses_region: email.us-east-1.amazonaws.com

@@ -36,6 +36,18 @@
     group=nagios
     mode=770
 
+- name: echo 
+  sudo: true
+  command: "echo ./configure --prefix=/usr/local/nagios --with-nagios-user=nagios --with-nagios-group=nagios --with-command-user=nagios --with-command-group=nagcmd chdir={{nagios_build_directory}}/nagios-{{nagios_version}}"
+
+#this may be failing dude to strip error 'No Error' (but it is permission deny) 
+#    'could not create temporary file to hold stripped copy: No error'
+#
+#checkinstall --pkgname=nagios4 --requires='perl,libc6' --default chdir=/tmp/nagios-4.0.6
+#or
+#chmod 777 /usr/local/nagios/
+#try until it works
+
 - name: configure
   sudo: true
   command: "./configure --prefix=/usr/local/nagios --with-nagios-user=nagios --with-nagios-group=nagios --with-command-user=nagios --with-command-group=nagcmd chdir={{nagios_build_directory}}/nagios-{{nagios_version}}"
@@ -43,6 +55,10 @@
 - name: make
   sudo: true
   command: "make all chdir={{nagios_build_directory}}/nagios-{{nagios_version}}"
+
+- name: echo install nagios package
+  sudo: true
+  command: "echo checkinstall --pkgname=nagios4 --requires='perl,libc6' --default chdir={{nagios_build_directory}}/nagios-{{nagios_version}}"
 
 - name: install nagios package
   sudo: true
@@ -67,3 +83,9 @@
 - name: install exfoliation
   sudo: true
   command: "dpkg --force-overwrite -i nagios-exfoliation_{{nagios_version}}-1_amd64.deb chdir={{nagios_build_directory}}/nagios-{{nagios_version}}"
+  when: ansible_machine == 'x86_64'
+
+- name: install exfoliation
+  sudo: true
+  command: "dpkg --force-overwrite -i nagios-exfoliation_{{nagios_version}}-1_i386.deb chdir={{nagios_build_directory}}/nagios-{{nagios_version}}"
+  when: ansible_machine in 'i386 i686' 

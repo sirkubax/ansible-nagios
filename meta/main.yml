@@ -1,12 +1,12 @@
 ---
 galaxy_info:
-  author: Benjamin Coe
+  author: Benjamin Coe, mod Jakub Mx
   description: A role for installing Nagios 4 with PagerDuty and SES support.
   min_ansible_version: 1.4
   version: 0.0.1
   license: ISC
   platforms:
-  - name: Ubuntu
+  - name: Ubuntu, Debian
     versions:
     - precise
     - trusty

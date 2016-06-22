@@ -76,7 +76,7 @@
 
 - name: enable nagios vhost
   sudo: true
-  command: "a2ensite nagios"
+  command: "a2ensite nagios.conf"
 
 - name: enable apache ssl
   sudo: true

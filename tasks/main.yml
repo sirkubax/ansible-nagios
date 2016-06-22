@@ -81,16 +81,74 @@
     group=nagios
     mode=640
 
-- name: install nagios upstart script
+#There is nagios upstart script, but it was not enough for me
+#- name: install nagios upstart script
+#  sudo: true
+#  copy: >
+#    src=nagios.conf
+#    dest=/etc/init/nagios.conf
+#    owner=nagios
+#    group=nagios
+#    mode=640
+#
+- name: install nagios systemd script
   sudo: true
-  copy: >
-    src=nagios.conf
-    dest=/etc/init/nagios.conf
+  template: >
+    src=nagios.systemd
+    dest=/etc/init.d/nagios4
     owner=nagios
     group=nagios
-    mode=640
+    mode=755
+  tags:
+      - etc
+
+- name: install nagios /etc/default/
+  sudo: true
+  template: >
+    src=nagios4_default
+    dest=/etc/default/nagios4
+    owner=nagios
+    group=nagios
+    mode=755
+  tags:
+      - etc
+
+- name: create dir /usr/local/nagios/var/spool/checkresults
+  file:
+      state: directory
+      path: /usr/local/nagios/var/spool/checkresults
+      owner: nagios
+      group: nagios
+  tags:
+      - etc
+
+- name: create dir /usr/local/nagios/var/rw
+  file:
+      state: directory
+      path: /usr/local/nagios/var/rw
+      owner: nagios
+      group: nagios
+  tags:
+      - etc
+
+- name: chown dir /usr/local/nagios/share/
+  file:
+      state: directory
+      path: /usr/local/nagios/share
+      owner: www-data
+      group: www-data
+  tags:
+      - etc
+
+# nagios templates
+- tasks:
+  include: templates.yml
+  tags:
+      - templates
 
 - name: restart nagios
   sudo: true
-  service: name=nagios state=restarted
+  service: name=nagios4 state=restarted
   notify: restart apache
+  tags:
+      - etc
